@@ -22,6 +22,9 @@ if ! mkdir "$LOCK" 2>/dev/null; then echo "$STAMP  already running" >> "$LOG/tra
 trap 'rmdir "$LOCK"' EXIT
 sleep 20   # let iCloud finish downloading the file before we touch it
 
+# scan diagnostics: launchd-spawned zsh needs Full Disk Access to read iCloud Drive; log what we can see
+N=$(ls "$INBOX" 2>>"$LOG/transcribe.err" | grep -ciE '\.(pdf|png|jpe?g|heic)$'); echo "$STAMP  scan: $N candidate file(s) in inbox (uid=$(id -u), parent=$(ps -o comm= -p $PPID))" >> "$LOG/transcribe.log"
+
 notify() { osascript -e "display notification \"$1\" with title \"Learning\" subtitle \"$2\" sound name \"Glass\"" 2>>"$LOG/transcribe.err"; }
 
 for f in "$INBOX"/*.(pdf|PDF|png|PNG|jpg|JPG|jpeg|JPEG|heic|HEIC); do

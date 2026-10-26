@@ -41,7 +41,7 @@ launchctl bootout gui/$(id -u)/com.elijah.learning-transcribe
 ```
 
 Logs: `logs/transcribe.log` (Claude's output per file), `logs/transcribe.err`, `logs/launchd.*`.
-Requires Full Disk Access for `/bin/zsh` (already granted for the BYU mail job) so launchd can read iCloud Drive.
+**Requires Full Disk Access for `/bin/zsh`.** Without it the launchd-spawned shell gets `Operation not permitted` on iCloud Drive and silently processes nothing (the `scan:` line in `logs/transcribe.log` shows 0 files and `transcribe.err` has the error). Grant it in System Settings → Privacy & Security → Full Disk Access (open `/bin` in Finder and drag `zsh` onto the list), then **bootout + bootstrap the job** — the grant did not apply to the already-loaded agent (verified 2026-10-26).
 
 ## Files
 
