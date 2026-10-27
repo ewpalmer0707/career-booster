@@ -27,6 +27,9 @@ N=$(ls "$INBOX" 2>>"$LOG/transcribe.err" | grep -ciE '\.(pdf|png|jpe?g|heic)$');
 
 notify() { osascript -e "display notification \"$1\" with title \"Learning\" subtitle \"$2\" sound name \"Glass\"" 2>>"$LOG/transcribe.err"; }
 
+# Apple Notes "Save to Files" on a handwritten note drops the drawing as a PNG plus a 3-byte text.txt placeholder; bin the placeholder
+for junk in "$INBOX"/text*.txt; do [[ $(stat -f %z "$junk") -lt 16 ]] && rm -f "$junk"; done
+
 for f in "$INBOX"/*.(pdf|PDF|png|PNG|jpg|JPG|jpeg|JPEG|heic|HEIC); do
   name=$(basename "$f"); stem=${name%.*}; ext=${name##*.}; ext=${ext:l}
   # skip files iCloud hasn't fully downloaded yet (placeholder .icloud files are hidden; size 0 = in flight)
