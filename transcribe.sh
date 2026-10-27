@@ -34,6 +34,9 @@ for f in "$INBOX"/*.(pdf|PDF|png|PNG|jpg|JPG|jpeg|JPEG|heic|HEIC); do
   name=$(basename "$f"); stem=${name%.*}; ext=${name##*.}; ext=${ext:l}
   # skip files iCloud hasn't fully downloaded yet (placeholder .icloud files are hidden; size 0 = in flight)
   [[ ! -s "$f" ]] && continue
+  # iCloud may list the file before its bytes are local; force the download and wait for it (up to ~2 min)
+  brctl download "$f" 2>/dev/null; for i in {1..24}; do head -c 1 "$f" >/dev/null 2>&1 && break; sleep 5; done
+  if ! head -c 1 "$f" >/dev/null 2>&1; then echo "$STAMP  still downloading, will retry next run: $name" >> "$LOG/transcribe.log"; continue; fi
   src="$f"
   if [[ "$ext" == "heic" ]]; then   # Claude can't read HEIC; convert
     src="$WORK/$stem.png"; sips -s format png "$f" --out "$src" >/dev/null 2>>"$LOG/transcribe.err" || { echo "$STAMP  heic convert failed: $name" >> "$LOG/transcribe.log"; continue; }
@@ -64,8 +67,9 @@ P
   OUT=$(printf '%s\n' "$PROMPT" | claude -p --model sonnet --max-turns 12 --permission-mode acceptEdits \
         --allowedTools "Read" "Write" "Glob" --output-format text 2>>"$LOG/transcribe.err")
   { echo "===== $STAMP  $name"; echo "$OUT"; echo; } >> "$LOG/transcribe.log"
-  FIRST=$(printf '%s' "$OUT" | grep -m1 -E '^DONE:')
-  if [[ -n "$FIRST" ]]; then
+  FIRST=$(printf '%s' "$OUT" | grep -m1 -E '^DONE: /')
+  WROTE=${${FIRST#DONE: }%% |*}
+  if [[ -n "$FIRST" && -s "$WROTE" ]]; then
     mv "$f" "$DONE/$name"; [[ "$src" != "$f" ]] && rm -f "$src"
     TITLE=${FIRST##*| }
     notify "$TITLE" "Draft written to src/content/essays — open Obsidian to review"
