@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Handwriting → essay draft. Run by launchd (com.elijah.learning-transcribe) whenever a file lands in the
-# iCloud inbox, or manually:  ~/Developer/personal/learning-pipeline/transcribe.sh
+# iCloud inbox, or manually:  ~/Desktop/BYU/learning/learning-pipeline/transcribe.sh
 #
 #   iPad Apple Notes ──Send a Copy → Save to Files──▶ iCloud Drive/Learning/inbox/*.pdf|png|jpg|heic
 #   launchd WatchPaths ──▶ this script ──▶ headless `claude -p` reads the scan, writes
@@ -12,9 +12,9 @@ setopt null_glob
 export PATH="/Users/elijah/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 ICLOUD="/Users/elijah/Library/Mobile Documents/com~apple~CloudDocs/Learning"
 INBOX="$ICLOUD/inbox"; DONE="$ICLOUD/processed"
-SITE=/Users/elijah/Developer/personal/ewpalmer0707.github.io
+SITE=/Users/elijah/Desktop/BYU/learning/ewpalmer0707.github.io
 ESSAYS=$SITE/src/content/essays
-HERE=/Users/elijah/Developer/personal/learning-pipeline
+HERE=/Users/elijah/Desktop/BYU/learning/learning-pipeline
 LOG=$HERE/logs; WORK=$HERE/work; mkdir -p "$LOG" "$WORK" "$DONE" "$ESSAYS"
 STAMP=$(date "+%Y-%m-%d %H:%M"); TODAY=$(date +%Y-%m-%d)
 LOCK=$HERE/.lock

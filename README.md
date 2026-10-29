@@ -25,7 +25,7 @@ Explaining something in my own words, by hand, is how I find out whether I under
 3. **Transcribe.** launchd sees the new file and runs `transcribe.sh`. Claude reads every page, transcribes faithfully (spelling fixed, nothing added, unreadable words marked `[?]`), and writes `src/content/essays/YYYY-MM-DD-<slug>.md` with `status: draft`. The scan moves to `Learning/processed/`. A macOS notification tells me it's ready.
 4. **Edit** in Obsidian (vault = the site's `src/content/` folder). Fix `[?]`s, tighten, set `project:` to the slug of the project it should pair with, flip `status: published`.
 5. **Publish.** `git push` in the site repo. GitHub Actions builds and deploys.
-6. **Prove it.** Build the project under `~/Developer/personal/projects/<slug>/`, write `src/content/projects/<slug>.md` with `essay: <essay-slug>`, and the two pages link each other.
+6. **Prove it.** Build the project under `~/Desktop/BYU/learning/projects/<slug>/`, write `src/content/projects/<slug>.md` with `essay: <essay-slug>`, and the two pages link each other.
 
 ## Install / operate
 

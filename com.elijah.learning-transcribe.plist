@@ -6,7 +6,7 @@
   <key>ProgramArguments</key>
   <array>
     <string>/bin/zsh</string>
-    <string>/Users/elijah/Developer/personal/learning-pipeline/transcribe.sh</string>
+    <string>/Users/elijah/Desktop/BYU/learning/learning-pipeline/transcribe.sh</string>
   </array>
   <key>WatchPaths</key>
   <array>
@@ -14,7 +14,7 @@
   </array>
   <key>StartInterval</key><integer>1800</integer>
   <key>RunAtLoad</key><true/>
-  <key>StandardOutPath</key><string>/Users/elijah/Developer/personal/learning-pipeline/logs/launchd.out</string>
-  <key>StandardErrorPath</key><string>/Users/elijah/Developer/personal/learning-pipeline/logs/launchd.err</string>
+  <key>StandardOutPath</key><string>/Users/elijah/Desktop/BYU/learning/learning-pipeline/logs/launchd.out</string>
+  <key>StandardErrorPath</key><string>/Users/elijah/Desktop/BYU/learning/learning-pipeline/logs/launchd.err</string>
 </dict>
 </plist>
